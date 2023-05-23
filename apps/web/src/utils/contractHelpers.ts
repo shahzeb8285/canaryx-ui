@@ -160,7 +160,7 @@ import type {
   SID,
   TokenGenABI,
   SIDResolver,
-} from 'config/abi/types1'
+} from 'config/abi/types'
 import { ChainId } from '@pancakeswap/sdk'
 
 export const getContract = ({

@@ -8,7 +8,7 @@ import {
   Multicall,
   Weth,
   Zap,
-} from 'config/abi/types1'
+} from 'config/abi/types'
 import zapAbi from 'config/abi/zap.json'
 import { useProviderOrSigner } from 'hooks/useProviderOrSigner'
 import { useMemo } from 'react'
@@ -75,7 +75,7 @@ import multiCallAbi from 'config/abi/Multicall.json'
 import WETH_ABI from 'config/abi/weth.json'
 import { getContract } from 'utils'
 
-import { IPancakePair } from 'config/abi/types1/IPancakePair'
+import { IPancakePair } from 'config/abi/types/IPancakePair'
 import { VaultKey } from 'state/types'
 import { useActiveChainId } from './useActiveChainId'
 

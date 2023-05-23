@@ -1,6 +1,6 @@
 import { useDebounce } from '@pancakeswap/hooks'
-import { Multicall } from 'config/abi/types1'
-import { ResultStructOutput } from 'config/abi/types1/Multicall'
+import { Multicall } from 'config/abi/types'
+import { ResultStructOutput } from 'config/abi/types/Multicall'
 import { useEffect, useMemo, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useCurrentBlock } from 'state/block/hooks'

@@ -2,7 +2,7 @@ import { Currency, CurrencyAmount, Fraction, JSBI, Percent, Price, TradeType, ZE
 
 import { parseUnits } from '@ethersproject/units'
 import PancakeSwapMMLinkedPoolABI from 'config/abi/mmLinkedPool.json'
-import { MmLinkedPool } from 'config/abi/types1/MmLinkedPool'
+import { MmLinkedPool } from 'config/abi/types/MmLinkedPool'
 import { ONE_HUNDRED_PERCENT } from 'config/constants/exchange'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useContract } from 'hooks/useContract'

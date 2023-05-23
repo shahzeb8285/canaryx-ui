@@ -5,7 +5,7 @@ import { BIPS_BASE, INPUT_FRACTION_AFTER_FEE, ONE_HUNDRED_PERCENT } from 'config
 import { Field } from 'state/swap/actions'
 import { basisPointsToPercent } from 'utils/exchange'
 import PancakeSwapSmartRouterABI from 'config/abi/pancakeSwapSmartRouter.json'
-import { PancakeSwapSmartRouter } from 'config/abi/types1/PancakeSwapSmartRouter'
+import { PancakeSwapSmartRouter } from 'config/abi/types/PancakeSwapSmartRouter'
 import { useContract } from 'hooks/useContract'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ChainMap } from 'config/constants/types'

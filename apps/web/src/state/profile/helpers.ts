@@ -1,5 +1,5 @@
 import { Profile } from 'state/types'
-import { PancakeProfile } from 'config/abi/types1/PancakeProfile'
+import { PancakeProfile } from 'config/abi/types/PancakeProfile'
 import profileABI from 'config/abi/pancakeProfile.json'
 import { API_PROFILE } from 'config/constants/endpoints'
 import { getTeam } from 'state/teams/helpers'
