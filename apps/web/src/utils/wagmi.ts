@@ -13,7 +13,7 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { SafeConnector } from './safeConnector'
 
 // const CHAINS = [bsc, mainnet, bscTestnet, goerli]
-const CHAINS = [bsc,songbird]
+const CHAINS = [songbird,bsc]
 const getNodeRealUrl = (networkName: string) => {
   let host = null
 

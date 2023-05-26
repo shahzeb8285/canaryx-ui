@@ -11,7 +11,7 @@ import { Autoplay } from 'swiper'
 const IntroSteps = [
   {
     title: <Trans>Your first step in the DeFi world</Trans>,
-    icon: 'https://cdn.pancakeswap.com/wallets/wallet_intro.png',
+    icon: '/images/wallet-connects/connectdoc.png',
     description: (
       <Trans>
         A Web3 Wallet allows you to send and receive crypto assets like bitcoin, BNB, ETH, NFTs and much more.
@@ -20,7 +20,7 @@ const IntroSteps = [
   },
   {
     title: <Trans>Login using a wallet connection</Trans>,
-    icon: 'https://cdn.pancakeswap.com/wallets/world_lock.png',
+    icon: '/images/wallet-connects/connectdoc1.png',
     description: (
       <Trans>
         Instead of setting up new accounts and passwords for every website, simply set up your wallet in one go, and

@@ -6,6 +6,8 @@ import {
   Heading,
   Image,
   LinkExternal,
+  Logo,
+  LogoRoundIcon,
   ModalV2,
   ModalV2Props,
   ModalWrapper,
@@ -390,7 +392,7 @@ export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
       wallets
         .map((w) => w.icon)
         .filter((icon) => typeof icon === 'string')
-        .concat('https://cdn.pancakeswap.com/wallets/wallet_intro.png') as string[],
+        .concat('/images/wallet-connects/connectdoc.png') as string[],
     [wallets],
   )
 
@@ -442,7 +444,8 @@ const Intro = ({ docLink, docText }: { docLink: string; docText: string }) => {
       <Heading as="h1" fontSize="20px" color="secondary">
         {t('Haven’t got a wallet yet?')}
       </Heading>
-      <Image src="https://cdn.pancakeswap.com/wallets/wallet_intro.png" width={198} height={178} />
+      {/* <LogoRoundIcon/> */}
+      <Image src="/images/wallet-connects/connectdoc.png" width={198} height={178} />
       <Button as={LinkExternal} color="backgroundAlt" variant="subtle" href={docLink}>
         {docText}
       </Button>

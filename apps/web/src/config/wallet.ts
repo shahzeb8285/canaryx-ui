@@ -7,6 +7,8 @@ import { getTrustWalletProvider } from '@pancakeswap/wagmi/connectors/trustWalle
 
 export enum ConnectorNames {
   MetaMask = 'metaMask',
+  Bitfrost = 'bitfrost',
+
   Injected = 'injected',
   WalletConnect = 'walletConnect',
   BSC = 'bsc',
@@ -65,6 +67,17 @@ const walletsConfig = ({
       deepLink: 'https://metamask.app.link/dapp/pancakeswap.finance/',
       // qrCode,
       downloadLink: 'https://metamask.app.link/dapp/pancakeswap.finance/',
+    },
+    {
+      id: 'bitfrost',
+      title: 'Bitfrost',
+      icon: '/images/wallets/bitfrost.png',
+      connectorId: ConnectorNames.Injected,
+      get installed() {
+        return isMetamaskInstalled()
+        // && metaMaskConnector.ready
+      },
+      // qrCode,
     },
     {
       id: 'binance',
@@ -197,6 +210,7 @@ const walletsConfig = ({
 }
 
 export const createWallets = (chainId: number, connect: any) => {
+  console.log("createWallets")
   const hasInjected = typeof window !== 'undefined' && !window.ethereum
   const config = walletsConfig({ chainId, connect })
   return hasInjected && config.some((c) => c.installed && c.connectorId === ConnectorNames.Injected)
@@ -224,7 +238,7 @@ const docLangCodeMapping: Record<string, string> = {
   'pt-br': 'portuguese-brazilian',
 }
 
-export const getDocLink = (code: string) =>
-  docLangCodeMapping[code]
-    ? `https://docs.pancakeswap.finance/v/${docLangCodeMapping[code]}/get-started/wallet-guide`
-    : `https://docs.pancakeswap.finance/get-started/wallet-guide`
+export const getDocLink = (code: string) => {
+  return "https://docs.canaryx.finance/getting-started/connect-your-wallet-to-canaryxswap"
+}
+ 

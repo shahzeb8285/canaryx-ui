@@ -76,7 +76,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
     },
   )
   const { chain } = useNetwork()
-  const localChainId = useLocalNetworkChain() || ChainId.BSC
+  const localChainId = useLocalNetworkChain() || ChainId.SONGBIRD
   const [, setSessionChainId] = useSessionChainId()
 
   const localChainName = chains.find((c) => c.id === localChainId)?.name ?? 'BSC'
@@ -124,9 +124,7 @@ export const NetworkSwitcher = () => {
 
   useNetworkConnectorUpdater()
 
-  useEffect(() => {
-      console.log("chains",chains)
-  },[chains])
+  
   const foundChain = useMemo(
     () => chains.find((c) => c.id === (isLoading ? pendingChainId || chainId : chainId)),
     [isLoading, pendingChainId, chainId],
