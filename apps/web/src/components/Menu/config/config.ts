@@ -102,7 +102,7 @@ const config: (
 
     {
       label:'Create Token',
-      href: '/createToken',
+      href: 'https://canaryx.finance/create',
       icon: EarnIcon,
       fillIcon: EarnFillIcon,
       image: '/images/decorations/pe2.png',
