@@ -43,7 +43,7 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = ({
   return (
     <CardFooter>
       <ExpandableButtonWrapper>
-        <Flex alignItems="center">
+        {/* <Flex alignItems="center">
           <PoolTypeTag vaultKey={vaultKey} isLocked={isLocked} account={account}>
             {(targetRef) => (
               <Flex ref={targetRef}>
@@ -51,7 +51,7 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = ({
               </Flex>
             )}
           </PoolTypeTag>
-        </Flex>
+        </Flex> */}
         <ExpandableLabel expanded={isExpanded} onClick={() => setIsExpanded(!isExpanded)}>
           {isExpanded ? t('Hide') : t('Details')}
         </ExpandableLabel>

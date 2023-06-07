@@ -23,7 +23,7 @@ export const CANARY_SONGBIRD = new ERC20Token(
   ChainId.SONGBIRD,
   '0xB2cD91b79df296ea181AA5f6d729E5136e1853A4',
   18,
-  'CANARYX',
+  'CANARY',
   'CanarySwap Token',
   '',
 )

@@ -4,7 +4,7 @@ export const SEO: DefaultSeoProps = {
   titleTemplate: '%s | CanarySwap',
   defaultTitle: 'CanarySwap',
   description:
-    'Unlock the world of CanaryX | Mint Founder NFTs',
+    'Unlock the world of Canary | Mint Founder NFTs',
   twitter: {
     cardType: 'summary_large_image',
     handle: '@canaryxtoken',

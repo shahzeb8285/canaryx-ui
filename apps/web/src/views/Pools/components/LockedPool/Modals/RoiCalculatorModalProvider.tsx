@@ -21,7 +21,7 @@ const RoiCalculatorModalProvider: React.FC<
     return (
       <VaultRoiCalculatorModal
         pool={pool}
-        linkLabel={t('Get %symbol%', { symbol: 'CANARYX' })}
+        linkLabel={t('Get %symbol%', { symbol: 'CANARY' })}
         linkHref={stakingTokenAddress ? `/swap?outputCurrency=${stakingTokenAddress}` : '/swap'}
         stakingTokenBalance={pool?.userData?.stakingTokenBalance}
         onBack={() => setShowRoiCalculator(false)}

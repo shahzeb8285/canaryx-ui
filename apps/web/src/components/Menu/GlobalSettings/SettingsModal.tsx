@@ -267,9 +267,9 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
             </Flex>
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
-                <Text>{t('Flippy sounds')}</Text>
+                <Text>Sounds</Text>
                 <QuestionHelper
-                  text={t('Fun sounds to make a truly immersive pancake-flipping trading experience')}
+                  text='Trading Alerts'
                   placement="top"
                   ml="4px"
                 />
@@ -298,7 +298,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                 scale="md"
               />
             </Flex>
-            <Flex justifyContent="space-between" alignItems="center" mb="24px">
+            {/* <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text>{t('Use StableSwap by default')}</Text>
                 <QuestionHelper
@@ -321,7 +321,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                 onChange={(e) => setIsStableSwapByDefault(e.target.checked)}
                 scale="md"
               />
-            </Flex>
+            </Flex> */}
           </>
         )}
       </ScrollableContainer>

@@ -203,7 +203,7 @@ const CreateToken = () => {
                         tokenName: e.target.value
                       })}
                       value={formData.tokenName}
-                      placeholder="i.e CanaryX Token"
+                      placeholder="i.e Canary Token"
                     />
                     <FormError>{formError.tokenNameError}</FormError>
 
@@ -216,7 +216,7 @@ const CreateToken = () => {
                       value={formData.tokenSymbol}
                       // onChange={handleDateChange('startTime')}
                       // selected={startTime}
-                      placeholder="i.e CANARYX"
+                      placeholder="i.e CANARY"
                     />
                     <FormError>{formError.tokenSymbolError}</FormError>
 
