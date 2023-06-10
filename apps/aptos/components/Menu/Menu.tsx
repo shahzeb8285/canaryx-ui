@@ -58,6 +58,8 @@ export const Menu = ({ children }: { children: ReactNode }) => {
     return footerLinks(t)
   }, [t])
 
+
+  console.log({cakePrice:Number(cakePrice)})
   return (
     <UIMenu
       linkComponent={(linkProps) => {

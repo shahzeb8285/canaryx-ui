@@ -171,16 +171,16 @@ export const fetchPoolsPublicDataAsync =
       const poolsWithDifferentFarmToken =
         activePriceHelperLpsConfig.length > 0 ? await fetchFarms(priceHelperLpsConfig, chainId) : []
       const farmsData = getState().farms.data
-      const bnbBusdFarm =
-        activePriceHelperLpsConfig.length > 0
-          ? farmsData.find((farm) => farm.token.symbol === 'BUSD' && farm.quoteToken.symbol === 'WBNB')
-          : null
+      const bnbBusdFarm =farmsData.find((farm) => farm.token.symbol === 'WSGB' && farm.quoteToken.symbol === 'CAND')
       const farmsWithPricesOfDifferentTokenPools = bnbBusdFarm
         ? getFarmsPrices([bnbBusdFarm, ...poolsWithDifferentFarmToken], chainId)
         : []
 
+      
+      console.log({bnbBusdFarm})
       const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
+      console.log({getTokenPricesFromFarm:prices})
       const liveData = poolsConfig.map((pool) => {
         const blockLimit = blockLimitsSousIdMap[pool.sousId]
         const totalStaking = totalStakingsSousIdMap[pool.sousId]
@@ -191,6 +191,7 @@ export const fetchPoolsPublicDataAsync =
         const stakingTokenAddress = isAddress(pool.stakingToken.address)
         const stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
 
+        console.log({stakingTokenPrice:stakingTokenPrice.toString()})
         const earningTokenAddress = isAddress(pool.earningToken.address)
         const earningTokenPrice = earningTokenAddress ? prices[earningTokenAddress] : 0
         const apr = !isPoolFinished

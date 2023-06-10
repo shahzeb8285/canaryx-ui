@@ -16,6 +16,8 @@ export const getFarmCakeRewardApr = (farm: FarmWithPrices, cakePriceBusd: FixedN
   const totalLiquidity = FixedNumber.from(farm.lpTotalInQuoteToken).mulUnsafe(
     FixedNumber.from(farm.quoteTokenPriceBusd),
   )
+
+  console.log("getFarmCakeRewardApr",totalLiquidity,cakePriceBusd.toString())
   const poolWeight = FixedNumber.from(farm.poolWeight)
   if (totalLiquidity.isZero() || poolWeight.isZero()) {
     return cakeRewardsAprAsString

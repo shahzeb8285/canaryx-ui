@@ -54,6 +54,8 @@ export function Apr<T>({
     rawApr,
     vaultKey,
   } = pool;
+
+  console.log("useTranslation",{apr})
   const { t } = useTranslation();
 
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO;

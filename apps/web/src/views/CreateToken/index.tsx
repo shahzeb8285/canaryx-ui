@@ -140,7 +140,6 @@ const CreateToken = () => {
 
   const handleSubmit = async () => {
     const isValid = validate()
-    console.log("saasasasasasasass", isValid)
     setIsLoading(true)
     if (isValid) {
 

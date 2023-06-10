@@ -33,7 +33,7 @@ const evmNativeStableLpMap = {
   [ChainId.SONGBIRD]: {
     address: '0x62006F35a5721834fD612fb5a0951d8C0019334B',
     wNative: 'WSGB',
-    stable: 'BUSD',
+    stable: 'CAND',
   },
 }
 
@@ -63,20 +63,20 @@ export async function farmV2FetchFarms({
 }: FetchFarmsParams) {
   const stableFarms = farms.filter(isStableFarm)
 
-  const [stableFarmsResults, poolInfos, lpDataResults] = await Promise.all([
-    fetchStableFarmData(stableFarms, chainId, multicallv2),
+  const [ poolInfos, lpDataResults] = await Promise.all([
+    // fetchStableFarmData(stableFarms, chainId, multicallv2),
     fetchMasterChefData(farms, isTestnet, multicallv2, masterChefAddress),
     fetchPublicFarmsData(farms, chainId, multicallv2, masterChefAddress),
   ])
 
-  const stableFarmsData = (stableFarmsResults as StableLpData[]).map(formatStableFarm)
+  // const stableFarmsData = (stableFarmsResults as StableLpData[]).map(formatStableFarm)
 
-  const stableFarmsDataMap = stableFarms.reduce<Record<number, FormatStableFarmResponse>>((map, farm, index) => {
-    return {
-      ...map,
-      [farm.pid]: stableFarmsData[index],
-    }
-  }, {})
+  // const stableFarmsDataMap = stableFarms.reduce<Record<number, FormatStableFarmResponse>>((map, farm, index) => {
+  //   return {
+  //     ...map,
+  //     [farm.pid]: stableFarmsData[index],
+  //   }
+  // }, {})
 
   const lpData = lpDataResults.map(formatClassicFarmResponse)
 
@@ -84,20 +84,26 @@ export async function farmV2FetchFarms({
     try {
       return {
         ...farm,
-        ...(stableFarmsDataMap[farm.pid]
-          ? getStableFarmDynamicData({
-              ...lpData[index],
-              ...stableFarmsDataMap[farm.pid],
-              token0Decimals: farm.token.decimals,
-              token1Decimals: farm.quoteToken.decimals,
-              price1: stableFarmsDataMap[farm.pid].price1,
-            })
-          : getClassicFarmsDynamicData({
-              ...lpData[index],
-              ...stableFarmsDataMap[farm.pid],
-              token0Decimals: farm.token.decimals,
-              token1Decimals: farm.quoteToken.decimals,
-            })),
+        // ...(stableFarmsDataMap[farm.pid]
+        //   ? getStableFarmDynamicData({
+        //     ...lpData[index],
+        //     ...stableFarmsDataMap[farm.pid],
+        //     token0Decimals: farm.token.decimals,
+        //     token1Decimals: farm.quoteToken.decimals,
+        //     price1: stableFarmsDataMap[farm.pid].price1,
+        //   })
+        //   : getClassicFarmsDynamicData({
+        //     ...lpData[index],
+        //     ...stableFarmsDataMap[farm.pid],
+        //     token0Decimals: farm.token.decimals,
+        //     token1Decimals: farm.quoteToken.decimals,
+        //   })),
+        ...getClassicFarmsDynamicData({
+          ...lpData[index],
+          // ...stableFarmsDataMap[farm.pid],
+          token0Decimals: farm.token.decimals,
+          token1Decimals: farm.quoteToken.decimals,
+        }),
         ...getFarmAllocation({
           allocPoint: poolInfos[index]?.allocPoint,
           isRegular: poolInfos[index]?.isRegular,
@@ -167,15 +173,18 @@ const masterChefV2Abi = [
   },
 ]
 
+const masterChefV1Abi =  [{ "type": "constructor", "stateMutability": "nonpayable", "inputs": [{ "type": "address", "name": "_dexToken", "internalType": "contract DEXToken" }, { "type": "address", "name": "_rewardToken", "internalType": "contract RewardToken" }, { "type": "address", "name": "_devaddr", "internalType": "address" }, { "type": "uint256", "name": "_dexTokenPerBlock", "internalType": "uint256" }, { "type": "uint256", "name": "_startBlock", "internalType": "uint256" }] }, { "type": "event", "name": "Deposit", "inputs": [{ "type": "address", "name": "user", "internalType": "address", "indexed": true }, { "type": "uint256", "name": "pid", "internalType": "uint256", "indexed": true }, { "type": "uint256", "name": "amount", "internalType": "uint256", "indexed": false }], "anonymous": false }, { "type": "event", "name": "EmergencyWithdraw", "inputs": [{ "type": "address", "name": "user", "internalType": "address", "indexed": true }, { "type": "uint256", "name": "pid", "internalType": "uint256", "indexed": true }, { "type": "uint256", "name": "amount", "internalType": "uint256", "indexed": false }], "anonymous": false }, { "type": "event", "name": "OwnershipTransferred", "inputs": [{ "type": "address", "name": "previousOwner", "internalType": "address", "indexed": true }, { "type": "address", "name": "newOwner", "internalType": "address", "indexed": true }], "anonymous": false }, { "type": "event", "name": "Withdraw", "inputs": [{ "type": "address", "name": "user", "internalType": "address", "indexed": true }, { "type": "uint256", "name": "pid", "internalType": "uint256", "indexed": true }, { "type": "uint256", "name": "amount", "internalType": "uint256", "indexed": false }], "anonymous": false }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }], "name": "BONUS_MULTIPLIER", "inputs": [] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "DexTokenOwnershipTransfer", "inputs": [{ "type": "address", "name": "_address", "internalType": "address" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "add", "inputs": [{ "type": "uint256", "name": "_allocPoint", "internalType": "uint256" }, { "type": "address", "name": "_lpToken", "internalType": "contract IBEP20" }, { "type": "bool", "name": "_withUpdate", "internalType": "bool" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "deposit", "inputs": [{ "type": "uint256", "name": "_pid", "internalType": "uint256" }, { "type": "uint256", "name": "_amount", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "dev", "inputs": [{ "type": "address", "name": "_devaddr", "internalType": "address" }] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "address", "name": "", "internalType": "address" }], "name": "devaddr", "inputs": [] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "address", "name": "", "internalType": "contract DEXToken" }], "name": "dexToken", "inputs": [] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }], "name": "dexTokenPerBlock", "inputs": [] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "emergencyWithdraw", "inputs": [{ "type": "uint256", "name": "_pid", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "enterStaking", "inputs": [{ "type": "uint256", "name": "_amount", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }], "name": "getMultiplier", "inputs": [{ "type": "uint256", "name": "_from", "internalType": "uint256" }, { "type": "uint256", "name": "_to", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "leaveStaking", "inputs": [{ "type": "uint256", "name": "_amount", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "massUpdatePools", "inputs": [] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "mintDexToken", "inputs": [{ "type": "uint256", "name": "amount", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "address", "name": "", "internalType": "address" }], "name": "owner", "inputs": [] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }], "name": "pendingDexToken", "inputs": [{ "type": "uint256", "name": "_pid", "internalType": "uint256" }, { "type": "address", "name": "_user", "internalType": "address" }] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "address", "name": "lpToken", "internalType": "contract IBEP20" }, { "type": "uint256", "name": "allocPoint", "internalType": "uint256" }, { "type": "uint256", "name": "lastRewardBlock", "internalType": "uint256" }, { "type": "uint256", "name": "accDexTokenPerShare", "internalType": "uint256" }], "name": "poolInfo", "inputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }], "name": "poolLength", "inputs": [] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "renounceOwnership", "inputs": [] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "address", "name": "", "internalType": "contract RewardToken" }], "name": "rewardToken", "inputs": [] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "set", "inputs": [{ "type": "uint256", "name": "_pid", "internalType": "uint256" }, { "type": "uint256", "name": "_allocPoint", "internalType": "uint256" }, { "type": "bool", "name": "_withUpdate", "internalType": "bool" }] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }], "name": "startBlock", "inputs": [] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }], "name": "totalAllocPoint", "inputs": [] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "transferOwnership", "inputs": [{ "type": "address", "name": "newOwner", "internalType": "address" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "updateDexTokenPerBlock", "inputs": [{ "type": "uint256", "name": "_dexTokenPerBlock", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "updateMultiplier", "inputs": [{ "type": "uint256", "name": "multiplierNumber", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "updatePool", "inputs": [{ "type": "uint256", "name": "_pid", "internalType": "uint256" }] }, { "type": "function", "stateMutability": "view", "outputs": [{ "type": "uint256", "name": "amount", "internalType": "uint256" }, { "type": "uint256", "name": "rewardDebt", "internalType": "uint256" }], "name": "userInfo", "inputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }, { "type": "address", "name": "", "internalType": "address" }] }, { "type": "function", "stateMutability": "nonpayable", "outputs": [], "name": "withdraw", "inputs": [{ "type": "uint256", "name": "_pid", "internalType": "uint256" }, { "type": "uint256", "name": "_amount", "internalType": "uint256" }] }]
+
+
 const masterChefFarmCalls = (farm: SerializedFarmConfig, masterChefAddress: string) => {
   const { pid } = farm
 
   return pid || pid === 0
     ? {
-        address: masterChefAddress,
-        name: 'poolInfo',
-        params: [pid],
-      }
+      address: masterChefAddress,
+      name: 'poolInfo',
+      params: [pid],
+    }
     : null
 }
 
@@ -190,9 +199,9 @@ export const fetchMasterChefData = async (
     const masterChefAggregatedCalls = masterChefCalls.filter((masterChefCall) => masterChefCall !== null) as Call[]
 
     const masterChefMultiCallResult = await multicallv2({
-      abi: masterChefV2Abi,
+      abi: masterChefV1Abi,
       calls: masterChefAggregatedCalls,
-      chainId: isTestnet ? ChainId.BSC_TESTNET : ChainId.BSC,
+      chainId: isTestnet ? ChainId.BSC_TESTNET : ChainId.SONGBIRD,
     })
 
     let masterChefChunkedResultCounter = 0
@@ -220,10 +229,10 @@ export const fetchMasterChefV2Data = async ({
   masterChefAddress: string
 }) => {
   try {
-    const [[poolLength], [totalRegularAllocPoint], [totalSpecialAllocPoint], [cakePerBlock]] = await multicallv2<
+    const [[poolLength], [totalRegularAllocPoint], [cakePerBlock]] = await multicallv2<
       [[BigNumber], [BigNumber], [BigNumber], [BigNumber]]
     >({
-      abi: masterChefV2Abi,
+      abi: masterChefV1Abi,
       calls: [
         {
           address: masterChefAddress,
@@ -231,25 +240,22 @@ export const fetchMasterChefV2Data = async ({
         },
         {
           address: masterChefAddress,
-          name: 'totalRegularAllocPoint',
+          name: 'totalAllocPoint',
         },
+       
         {
           address: masterChefAddress,
-          name: 'totalSpecialAllocPoint',
-        },
-        {
-          address: masterChefAddress,
-          name: 'cakePerBlock',
-          params: [true],
+          name: 'dexTokenPerBlock',
+          // params: [],
         },
       ],
-      chainId: isTestnet ? ChainId.BSC_TESTNET : ChainId.BSC,
+      chainId: isTestnet ? ChainId.BSC_TESTNET : ChainId.SONGBIRD,
     })
 
     return {
       poolLength,
       totalRegularAllocPoint,
-      totalSpecialAllocPoint,
+      totalSpecialAllocPoint:BigNumber.from('0'),
       cakePerBlock,
     }
   } catch (error) {
@@ -360,7 +366,7 @@ const getFarmAllocation = ({
   totalSpecialAllocPoint,
 }: FarmAllocationParams) => {
   const _allocPoint = allocPoint ? FixedNumber.from(allocPoint) : FIXED_ZERO
-  const totalAlloc = isRegular ? totalRegularAllocPoint : totalSpecialAllocPoint
+  const totalAlloc = totalRegularAllocPoint
   const poolWeight =
     !totalAlloc.isZero() && !_allocPoint.isZero() ? _allocPoint.divUnsafe(FixedNumber.from(totalAlloc)) : FIXED_ZERO
 

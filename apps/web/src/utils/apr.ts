@@ -51,10 +51,15 @@ export const getFarmApr = (
   farmAddress: string,
   regularCakePerBlock: number,
 ): { cakeRewardsApr: number; lpRewardsApr: number } => {
+
   const yearlyCakeRewardAllocation = poolWeight
     ? poolWeight.times(BLOCKS_PER_YEAR * regularCakePerBlock)
     : new BigNumber(NaN)
+  
+
   const cakeRewardsApr = yearlyCakeRewardAllocation.times(cakePriceUsd).div(poolLiquidityUsd).times(100)
+  console.log("sdsdsdsdsdsd",poolWeight.toString())
+
   let cakeRewardsAprAsNumber = null
   if (!cakeRewardsApr.isNaN() && cakeRewardsApr.isFinite()) {
     cakeRewardsAprAsNumber = cakeRewardsApr.toNumber()

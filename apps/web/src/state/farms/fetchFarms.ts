@@ -52,7 +52,7 @@ function farmLpTransformer(farmResult, masterChefResult) {
     const [info, totalRegularAllocPoint] = masterChefResult[index]
     const allocPoint = info ? new BigNumber(info.allocPoint?._hex) : BIG_ZERO
     const poolWeight = totalRegularAllocPoint ? allocPoint.div(new BigNumber(totalRegularAllocPoint)) : BIG_ZERO
-
+    console.log("farmLpTransformer",masterChefResult[index])
     return {
       ...farm,
       token: farm.token,
@@ -72,6 +72,7 @@ function farmLpTransformer(farmResult, masterChefResult) {
 }
 
 const fetchFarms = async (farmsToFetch: SerializedFarmConfig[], chainId: number): Promise<SerializedFarm[]> => {
+  console.log("fetchFarms",)
   const [farmResult, masterChefResult] = await Promise.all([
     fetchPublicFarmsData(farmsToFetch, chainId),
     fetchMasterChefData(farmsToFetch, chainId),

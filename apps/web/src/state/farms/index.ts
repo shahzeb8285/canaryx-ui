@@ -26,6 +26,7 @@ import { fetchMasterChefFarmPoolLength } from './fetchMasterChefData'
 
 const fetchFarmPublicDataPkg = async ({ pids, chainId, chain }): Promise<[SerializedFarm[], number, number]> => {
   const farmsConfig = await getFarmConfig(chainId)
+
   const farmsCanFetch = farmsConfig.filter((farmConfig) => pids.includes(farmConfig.pid))
 
   const priceHelperLpsConfig = getFarmsPriceHelperLpFiles(chainId)
@@ -88,6 +89,7 @@ export const fetchFarmsPublicDataAsync = createAsyncThunk<
     if (!chain || !farmFetcher.isChainSupported(chain.id)) throw new Error('chain not supported')
     try {
       const resp = await fetchFarmPublicDataPkg({ pids, chainId, chain })
+      console.log("saasasasa",resp)
       return resp
     } catch (error) {
       console.error(error)
