@@ -22,7 +22,6 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { SecondaryLabel, FormError } from 'views/Voting/CreateProposal/styles'
 import { useEffect, useState } from 'react'
 
-import { useCreateToken } from './hooks/useCreateToken'
 import useTokenBalance, { useGetBnbBalance } from 'hooks/useTokenBalance'
 
 import { formatEther, parseUnits } from '@ethersproject/units'
@@ -113,7 +112,7 @@ const CreateToken = () => {
       const formattedReward = Number(formatEther(_pendingReward)).toFixed(4)
       setPendingReward(formattedReward)
     } catch (err) {
-      
+      console.error(err)
    }
   }
 
@@ -153,7 +152,8 @@ const CreateToken = () => {
       await ftsoContract.claim(account,account,"90",false);
 
     } catch (err) {
-      
+      console.error(err)
+
     }
     setIsLoading(false)
 
@@ -165,7 +165,8 @@ const CreateToken = () => {
     try {
       await wsgbContract.undelegateAll();
     } catch (err) {
-      
+      console.error(err)
+
     }
     setIsLoading(false)
 
@@ -259,7 +260,7 @@ const CreateToken = () => {
                           m="0 4px"
                           fontSize="12px"
                           color="warning"
-                          href={"/swap?chain=songbird&outputCurrency=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED"}
+                          href="/swap?chain=songbird&outputCurrency=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED"
                           style={{ textDecoration: 'underline' }}
                         >
                           Convert SGB To WSGB
@@ -346,7 +347,7 @@ const CreateToken = () => {
                        <Button
                           type="submit"
                           width="100%"
-                          disabled={isNaN(Number(pendingReward))}
+                          disabled={Number.isNaN(Number(pendingReward))}
                           isLoading={isLoading}
                           onClick={(e) => {
                             e.preventDefault()
