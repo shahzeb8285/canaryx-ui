@@ -110,6 +110,16 @@ const config: (
       
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
+    // {
+    //   label:'Delegate',
+    //   href: '/delegate',
+    //   icon: EarnIcon,
+    //   fillIcon: EarnFillIcon,
+    //   image: '/images/decorations/pe2.png',
+    //   items: [
+      
+    //   ].map((item) => addMenuItemSupported(item, chainId)),
+    // },
     
     // {
     //   label: '',
