@@ -110,16 +110,16 @@ const config: (
       
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
-    // {
-    //   label:'Delegate',
-    //   href: '/delegate',
-    //   icon: EarnIcon,
-    //   fillIcon: EarnFillIcon,
-    //   image: '/images/decorations/pe2.png',
-    //   items: [
+    {
+      label:'Delegate',
+      href: '/delegate',
+      icon: EarnIcon,
+      fillIcon: EarnFillIcon,
+      image: '/images/decorations/pe2.png',
+      items: [
       
-    //   ].map((item) => addMenuItemSupported(item, chainId)),
-    // },
+      ].map((item) => addMenuItemSupported(item, chainId)),
+    },
     
     // {
     //   label: '',
