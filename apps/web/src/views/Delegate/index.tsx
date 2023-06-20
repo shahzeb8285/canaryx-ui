@@ -14,6 +14,8 @@ import {
   Link,
   FlexLayout,
 } from '@pancakeswap/uikit'
+import { isMobile } from 'react-device-detect';
+
 import { useAccount } from 'wagmi'
 import { useTranslation } from '@pancakeswap/localization'
 import useTheme from 'hooks/useTheme'
@@ -252,8 +254,8 @@ const CreateToken = () => {
                 <CardBody>
 
 
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div style={{ width: "80%" }}>
+                  <div style={{display:isMobile?"block":"flex", justifyContent: "space-between" }}>
+                    <div style={{ width: isMobile?"100%":"80%" }}>
                       <Box mb="24px">
                         <SecondaryLabel>SGB Balance:</SecondaryLabel>
                         <Input
@@ -341,7 +343,7 @@ const CreateToken = () => {
 
                     </div>
 
-                    <div style={{ width: "100%", marginLeft: 10 }}>
+                    <div style={{ width: "100%", marginLeft: isMobile?0:10 }}>
                       {/* <Box mb="24px">
                         <SecondaryLabel>Delegated WSGB Balance:</SecondaryLabel>
                         <Input
