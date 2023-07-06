@@ -6,6 +6,7 @@ import {
   PageHeader,
   PageSection,
   Input,
+  Text,
   Box,
   Card,
   CardBody,
@@ -13,6 +14,10 @@ import {
   Checkbox,
   Link,
   FlexLayout,
+  Table,
+  Th,
+  CardFooter,
+  Td,
 } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect';
 
@@ -38,6 +43,7 @@ import ftsoABI from "config/abi/ftsoABI.json";
 import { PercentSlider } from '@pancakeswap/uikit/src/widgets/Liquidity'
 import FlexRow from 'views/Predictions/components/FlexRow'
 import { AtomBox } from '@pancakeswap/ui'
+import { BigNumber } from 'ethers';
 
 const StyledHeader = styled(PageHeader)`
   max-height: max-content;
@@ -80,12 +86,10 @@ const CreateToken = () => {
   const { theme } = useTheme()
   const { address: account } = useAccount()
   const [isLoading, setIsLoading] = useState(false)
-
   const [delegationAddress, setDelegationAddress] = useState("")
   const [formData, setFormData] = useState({
     delegationAmount: 0,
   })
-
   const wbnbAddress = "0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED";
   const { balance: bnbBalance, } = useGetBnbBalance()
   const formattedBnbBalance = parseFloat(formatEther(bnbBalance))
@@ -94,10 +98,9 @@ const CreateToken = () => {
   const wsgbContract = useContract(wbnbAddress, WSGBABI, true);
   const ftsoAddress = "0x13F7866568dC476cC3522d17C23C35FEDc1431C5"
   const ftsoContract = useContract(ftsoAddress, ftsoABI, true);
-
   const [pendingReward, setPendingReward] = useState("")
-
-
+  const [delegations,setDelegations] = useState([])
+  const [epochs,setEpochs] = useState([])
   const [formError, setFormError] = useState({
     wgbDelegationError: "",
   })
@@ -112,9 +115,48 @@ const CreateToken = () => {
 
   const loadMyData = async () => {
     try {
-      const _pendingReward = await ftsoContract.callStatic.claim(account, account, "90", false);
-      const formattedReward = Number(formatEther(_pendingReward)).toFixed(4)
-      setPendingReward(formattedReward)
+      const delegationInfo = await wsgbContract.delegatesOf(account)
+      const _delegations = []
+      for (let i = 0; i < delegationInfo._delegateAddresses.length; i++){
+        const provider = ftsoProviders.find((item) => {
+          return item.address.toLowerCase() === delegationInfo._delegateAddresses[i].toLowerCase()
+        })
+        _delegations.push({
+          address: delegationInfo._delegateAddresses[i],
+          pips: BigNumber.from(delegationInfo._bips[i]).toNumber() / 100,
+          providerName:provider.name
+        })
+      }
+      setDelegations(_delegations)
+      console.log({ delegationInfo })
+      const epochsResp = await ftsoContract.getEpochsWithUnclaimedRewards(account);
+      let totalPendingRewards = BigNumber.from("0");
+      const rewardStats = [];
+      const _epochs  = []
+      for (const epoch of epochsResp) {
+        _epochs.push(BigNumber.from(epoch).toString())
+        // eslint-disable-next-line no-await-in-loop
+        const rewardState = await ftsoContract.getStateOfRewards(account, BigNumber.from(epoch).toString())
+        for (let i = 0; i < rewardState._dataProviders.length; i++){
+          rewardStats.push({
+            provider: rewardState._dataProviders[i],
+            epoch: BigNumber.from(epoch).toString(),
+            claimed: rewardState._claimed[i],
+            rewardAmount: BigNumber.from(rewardState._rewardAmounts[i])
+          })
+        }
+      }
+
+      setEpochs(_epochs)
+      for (const rewardState of rewardStats) {
+        if (!rewardState.claimed) {
+          totalPendingRewards = rewardState.rewardAmount.add(totalPendingRewards)
+        }
+      }
+
+      setPendingReward(Number(formatEther(totalPendingRewards)).toFixed(4))
+     
+    
     } catch (err) {
       console.error(err)
     }
@@ -138,6 +180,12 @@ const CreateToken = () => {
         wgbDelegationError: "Please Select Provider"
       }
       isError = true
+    } else if (delegations.length === 2) {
+      errors = {
+        ...errors,
+        wgbDelegationError: "Max Delegation Exceeds "
+      }
+      isError = true
     } else {
       const pipsRaw = formData.delegationAmount * 10000 / formattedWbnbBalance
       if (pipsRaw > 10000) {
@@ -158,9 +206,9 @@ const CreateToken = () => {
   const handleClaim = async () => {
     setIsLoading(true)
     try {
-
-      await ftsoContract.claim(account, account, "90", false);
-
+      const txn = await ftsoContract.claimReward(account, [...epochs]);
+      await txn.wait("1")
+      await loadMyData()
     } catch (err) {
       console.error(err)
 
@@ -173,7 +221,10 @@ const CreateToken = () => {
   const unDelegate = async () => {
     setIsLoading(true)
     try {
-      await wsgbContract.undelegateAll();
+      const resp = await wsgbContract.undelegateAll();
+      await resp.wait("1")
+      await loadMyData()
+
     } catch (err) {
       console.error(err)
 
@@ -191,7 +242,10 @@ const CreateToken = () => {
       try {
         const pipsRaw = formData.delegationAmount * 10000 / formattedWbnbBalance
         const pips = parseInt(pipsRaw.toString());
-        await wsgbContract.delegate(delegationAddress, pips);
+        const resp = await wsgbContract.delegate(delegationAddress, pips);
+        await resp.wait("1")
+
+        await loadMyData()
       } catch (err) {
         console.error(err)
       }
@@ -254,8 +308,8 @@ const CreateToken = () => {
                 <CardBody>
 
 
-                  <div style={{display:isMobile?"block":"flex", justifyContent: "space-between" }}>
-                    <div style={{ width: isMobile?"100%":"80%" }}>
+                  <div style={{ display: isMobile ? "block" : "flex", justifyContent: "space-between" }}>
+                    <div style={{ width: isMobile ? "100%" : "80%" }}>
                       <Box mb="24px">
                         <SecondaryLabel>SGB Balance:</SecondaryLabel>
                         <Input
@@ -289,7 +343,7 @@ const CreateToken = () => {
 
                       <Box mb="24px">
                         <SecondaryLabel>Select Provider:</SecondaryLabel>
-                        <Dropdown options={getDropdownOptions()} onChange={(item:Option) => {
+                        <Dropdown options={getDropdownOptions()} onChange={(item: Option) => {
                           if (item && item.value) {
                             setDelegationAddress(item?.value)
                           }
@@ -343,7 +397,7 @@ const CreateToken = () => {
 
                     </div>
 
-                    <div style={{ width: "100%", marginLeft: isMobile?0:10 }}>
+                    <div style={{ width: "100%", marginLeft: isMobile ? 0 : 10 }}>
                       {/* <Box mb="24px">
                         <SecondaryLabel>Delegated WSGB Balance:</SecondaryLabel>
                         <Input
@@ -355,8 +409,71 @@ const CreateToken = () => {
 
                       </Box> */}
 
-                      {account && <div>
 
+
+                      {account &&              <Card>
+                        <CardBody>
+                        <Table>
+                        <thead>
+                          <Th >
+                            <Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left" >
+                              Provider
+                            </Text>
+                          </Th>
+                          <Th >
+                            <Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left">
+                              Delegated Percent
+                            </Text>
+                          </Th>
+                          <Th />
+                        </thead>
+                            <tbody>
+                              {delegations.map((item, index) => {
+                                // eslint-disable-next-line react/no-array-index-key
+                                return <tr key={index}>
+                                   <Td>
+                                    <Text fontSize="14px">
+                                      {item.providerName}
+                                      {item.address}
+                              </Text>
+                                  </Td>
+                                <Td>
+                                <Text fontSize="14px">
+                                      {item.pips}%
+                              </Text>
+                            </Td>
+                                </tr>
+                              })}
+                          {/* {feeList.map((fee) => (
+                          <tr key={fee.id}>
+                            <Td>
+                              <Text fontSize="14px">
+                                {generateLink({ linkId: fee.linkId, percentage: fee.v2SwapFee })}
+                              </Text>
+                            </Td>
+                            <Td>
+                              <Text textAlign="right" fontSize="14px">{`${fee.v2SwapFee}%`}</Text>
+                            </Td>
+                            <Td>
+                              <Box width="24px" ml="auto">
+                                <CopyIcon
+                                  color="textSubtle"
+                                  cursor="pointer"
+                                  width={24}
+                                  height={24}
+                                  onClick={() =>
+                                    copyText(generateLink({ linkId: fee.linkId, percentage: fee.v2SwapFee }))
+                                  }
+                                />
+                              </Box>
+                            </Td>
+                          </tr>
+                        ))} */}
+                        </tbody>
+                      </Table>
+
+                        </CardBody>
+                        <CardFooter>
                         <Button
                           type="submit"
                           width="100%"
@@ -384,11 +501,12 @@ const CreateToken = () => {
                           }}
                           mb="16px"
                         >
-                          Claim {pendingReward && pendingReward} SGB Reward
+                          Claim {pendingReward &&  pendingReward  } SGB Reward
                         </Button>
-
-                      </div>}
-
+                        </CardFooter>
+                      </Card>
+               
+}
 
 
                     </div>
