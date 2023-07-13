@@ -44,6 +44,7 @@ import { PercentSlider } from '@pancakeswap/uikit/src/widgets/Liquidity'
 import FlexRow from 'views/Predictions/components/FlexRow'
 import { AtomBox } from '@pancakeswap/ui'
 import { BigNumber } from 'ethers';
+import Delegate from 'views/Delegate';
 
 const StyledHeader = styled(PageHeader)`
   max-height: max-content;
@@ -183,7 +184,7 @@ const CreateToken = () => {
     } else if (delegations.length === 2) {
       errors = {
         ...errors,
-        wgbDelegationError: "Max Delegation Exceeds "
+        wgbDelegationError: "Max Delegation Exceeded"
       }
       isError = true
     } else {
@@ -268,14 +269,22 @@ const CreateToken = () => {
   return (
     <>
       <StyledHeader>
-
         <Flex flexDirection={['column-reverse', null, 'row']}>
           <Left>
             <Heading as="h1" scale="xxl" my="24px">
-              Delegate Your WSGB
+              Delegate Your SGB
             </Heading>
+            <Flex justifyContent="center" alignItems="center" mt="16px">
+              <Text color="textSubtle" mb="8px" mr="8px">
+                Once you are done with the delegation, you can provide liquidity to earn even more.
+              </Text>
+              <Link href="https://app.canaryx.finance/liquidity?chain=songbird" >
+                <Button id="to-liquidity-link" variant="secondary" scale="sm">
+                  Go To Liquidity
+                </Button>
+              </Link>
+            </Flex>
           </Left>
-
         </Flex>
       </StyledHeader>
       <>
@@ -301,7 +310,7 @@ const CreateToken = () => {
               }}>
                 <CardHeader>
                   <Heading as="h3" scale="md">
-                    SGB Delegation
+                    Delegate on the Flare Network
                   </Heading>
                 </CardHeader>
 
@@ -311,7 +320,7 @@ const CreateToken = () => {
                   <div style={{ display: isMobile ? "block" : "flex", justifyContent: "space-between" }}>
                     <div style={{ width: isMobile ? "100%" : "80%" }}>
                       <Box mb="24px">
-                        <SecondaryLabel>SGB Balance:</SecondaryLabel>
+                        <SecondaryLabel>Your SGB Balance:</SecondaryLabel>
                         <Input
                           disabled
 
@@ -322,7 +331,7 @@ const CreateToken = () => {
                       </Box>
 
                       <Box mb="24px">
-                        <SecondaryLabel>WSGB Balance:</SecondaryLabel>
+                        <SecondaryLabel>Ready-to-Delegate WSGB:</SecondaryLabel>
                         <Input
                           disabled
                           value={formattedWbnbBalance}
@@ -336,18 +345,18 @@ const CreateToken = () => {
                           href="/swap?chain=songbird&outputCurrency=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED"
                           style={{ textDecoration: 'underline' }}
                         >
-                          Convert SGB To WSGB
+                          Wrap SGB To WSGB
                         </Link>
                       </Box>
 
 
                       <Box mb="24px">
-                        <SecondaryLabel>Select Provider:</SecondaryLabel>
+                        <SecondaryLabel>Choose Your Data Provider:</SecondaryLabel>
                         <Dropdown options={getDropdownOptions()} onChange={(item: Option) => {
                           if (item && item.value) {
                             setDelegationAddress(item?.value)
                           }
-                        }} placeholder="Select an option" />
+                        }} placeholder="-- Browse Options --" />
 
                       </Box>
                       <Box mb="24px">
@@ -376,7 +385,7 @@ const CreateToken = () => {
 
                       {account && (
                         <>
-                          <Button
+                          <Button  scale="sm"
                             type="submit"
                             width="100%"
                             isLoading={isLoading}
@@ -386,7 +395,7 @@ const CreateToken = () => {
                             }}
                             mb="16px"
                           >
-                            Delegate
+                            Commence Delegation
                           </Button>
 
 
@@ -417,12 +426,12 @@ const CreateToken = () => {
                         <thead>
                           <Th >
                             <Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left" >
-                              Provider
+                              Your Delegation Partners
                             </Text>
                           </Th>
                           <Th >
                             <Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left">
-                              Delegated Percent
+                              Percent
                             </Text>
                           </Th>
                           <Th />
@@ -434,7 +443,7 @@ const CreateToken = () => {
                                    <Td>
                                     <Text fontSize="14px">
                                       {item.providerName}
-                                      {item.address}
+                                      {/* {item.address} */}
                               </Text>
                                   </Td>
                                 <Td>
@@ -474,7 +483,7 @@ const CreateToken = () => {
 
                         </CardBody>
                         <CardFooter>
-                        <Button
+                        <Button  variant="secondary" scale="sm"
                           type="submit"
                           width="100%"
                           isLoading={isLoading}
@@ -484,13 +493,13 @@ const CreateToken = () => {
                           }}
                           mb="16px"
                         >
-                          Undelegate All
+                          Retract All Delegations
                         </Button>
 
 
 
 
-                        <Button
+                        <Button  scale="sm"
                           type="submit"
                           width="100%"
                           disabled={Number.isNaN(Number(pendingReward))}
@@ -501,7 +510,7 @@ const CreateToken = () => {
                           }}
                           mb="16px"
                         >
-                          Claim {pendingReward &&  pendingReward  } SGB Reward
+                          Claim your delegation rewards {pendingReward &&  pendingReward  } SGB
                         </Button>
                         </CardFooter>
                       </Card>

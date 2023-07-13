@@ -1,5 +1,5 @@
 import { Container } from '@pancakeswap/uikit'
-import { NextSeo } from 'next-seo'
+import { SEO } from 'next-seo.config'
 import styled from 'styled-components'
 
 const StyledPage = styled(Container)`
@@ -19,7 +19,7 @@ const StyledPage = styled(Container)`
 `
 
 export const PageMeta: React.FC<React.PropsWithChildren<PageProps>> = ({ title, description }) => {
-  return <NextSeo title={title} description={description} />
+  return <SEO defaultTitle={title} description={description} />
 }
 
 interface PageProps {
@@ -30,7 +30,7 @@ interface PageProps {
 const Page: React.FC<React.PropsWithChildren<PageProps>> = ({ children, title, description, ...props }) => {
   return (
     <>
-      <PageMeta title={title} description={description} />
+      <PageMeta defaultTitle={title} description={description} />
       <StyledPage {...props}>{children}</StyledPage>
     </>
   )

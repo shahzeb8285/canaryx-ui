@@ -12,7 +12,7 @@ const BurnedText = styled(Text)`
   font-size: 52px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    font-size: 64px;
+    font-size: 48px;
   }
 `
 

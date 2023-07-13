@@ -38,6 +38,7 @@ export function PercentSlider({ onValueChanged, currentValue }: PercentSliderPro
         min={0}
         max={100}
         value={innerLiquidityPercentage}
+        valueLabel={innerLiquidityPercentage.toString()} // pass current value as valueLabel
         onValueChanged={handleChangePercent}
         mb="16px"
       />

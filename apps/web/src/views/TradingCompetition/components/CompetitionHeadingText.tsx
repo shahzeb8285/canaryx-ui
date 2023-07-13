@@ -6,7 +6,7 @@ const H1SizeStyles = (theme: DefaultTheme) => `
   white-space: nowrap;
 
   ${theme.mediaQueries.sm} {
-    font-size: 64px;
+    font-size: 48px;
   }
 `
 

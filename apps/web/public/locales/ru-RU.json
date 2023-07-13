@@ -1036,7 +1036,7 @@
   "The Locked Price & Closed Price are exactly the same (within 8 decimals), so neither side wins. All funds entered into UP and DOWN positions will go to the weekly CAKE burn.": "Зафиксированная цена и цена закрытия совпадают (до восьми цифр после запятой), поэтому ни одна из сторон не выигрывает. Средства, внесенные на позиции ВВЕРХ и ВНИЗ, пойдут на еженедельное сжигание CAKE.",
   "To Burn": "На сжигание",
   "Account": "Аккаунт",
-  "PancakeSwap Info & Analytics": "Информация и анализ данных PancakeSwap",
+  "CanaryX Info & Analytics": "Информация и анализ данных PancakeSwap",
   "Top Tokens": "Самые популярные токены",
   "Top Pairs": "Лучшие пары",
   "Your Watchlist": "Список отслеживания",

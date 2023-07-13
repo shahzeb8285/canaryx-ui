@@ -75,7 +75,7 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         />
         <meta
           name="description"
-          content="CREATE, TRADE & EARN CanarySwap Your gateway to the decentralized finance movement on the Songbird Network."
+          content="CREATE, TRADE & EARN - CanaryX Your gateway to the decentralized finance movement on the Songbird Network."
         />
         {/* <meta name="theme-color" content="#1FC7D4" /> */}
         {(Component as NextPageWithLayout).mp && (

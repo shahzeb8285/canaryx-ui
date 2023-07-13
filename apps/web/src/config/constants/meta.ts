@@ -4,10 +4,10 @@ import { PageMeta } from './types'
 import { ASSET_CDN } from './endpoints'
 
 export const DEFAULT_META: PageMeta = {
-  title: 'PancakeSwap',
+  title: 'CanaryX',
   description:
-    'The most popular AMM on BSC by user count! Earn CAKE through yield farming or win it in the Lottery, then stake it in Syrup Pools to earn more tokens! Initial Farm Offerings (new token launch model pioneered by PancakeSwap), NFTs, and more, on a platform you can trust.',
-  image: `${ASSET_CDN}/web/og/hero.jpg`,
+    'The most sought-after AMM DEX on Songbird! Engage in seamless token swaps, provide liquidity for rewards, and earn $CANARY through exciting yield farming opportunities. Explore the new era of decentralized finance on a platform you can trust and rely on.',
+  image: `${ASSET_CDN}/web/og/fullLogo.png`,
 }
 
 interface PathList {

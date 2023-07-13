@@ -64,17 +64,17 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <meta
           name="description"
-          content="Cheaper and faster than Uniswap? Discover PancakeSwap, the leading DEX on BNB Smart Chain (BSC) with the best farms in DeFi and a lottery for CAKE."
+          content="The most sought-after AMM DEX on Songbird is here! Instantly swap your favorite tokens and provide liquidity to begin reaping from trading fees. Earn $CANARY through yield farming, and stake them to acquire more tokens—all on a platform you can rely on."
         />
         <meta name="theme-color" content="#1FC7D4" />
-        <meta name="twitter:image" content="https://pancakeswap.finance/images/hero.png" />
+        <meta name="twitter:image" content="https://app.canaryx.finance/fullLogo.png" />
         <meta
           name="twitter:description"
-          content="The most popular AMM on BSC! Earn CAKE through yield farming or win it in the Lottery, then stake it in Syrup Pools to earn more tokens! Initial Farm Offerings (new token launch model pioneered by PancakeSwap), NFTs, and more, on a platform you can trust."
+          content="Join the revolution - CanaryX on Songbird! Engage in seamless token swaps, provide liquidity for rewards, and earn $CANARY through exciting yield farming opportunities. Enter the new era of decentralized finance, on a platform you can trust."
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="🥞 PancakeSwap - A next evolution DeFi exchange on BNB Smart Chain (BSC)" />
-        <title>Bridge | PancakeSwap</title>
+        <meta name="twitter:title" content="💎 CanaryX - A Next-Gen DeFi Exchange on Songbird Network!" />
+        <title>Bridge | CanaryX</title>
       </Head>
       <NextThemeProvider>
         <StyledThemeProvider>

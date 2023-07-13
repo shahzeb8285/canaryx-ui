@@ -112,7 +112,17 @@ export default function Pool() {
   return (
     <Page>
       <AppBody>
-        <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} />
+        <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back.')} />
+        <Flex justifyContent="center">
+          <Text color="textSubtle" mb="8px" mr="8px">
+            {t('Delegate your tokens on the SGB network and start earning even before you supply liquidity.')}
+          </Text>
+          <Link href="https://app.canaryx.finance/delegate?chain=songbird" >
+            <Button id="delegate-link" variant="secondary" scale="sm">
+              {t('Delegate Now')}
+            </Button>
+          </Link>
+        </Flex>
         <Body>
           {renderBody()}
           {account && !v2IsLoading && (

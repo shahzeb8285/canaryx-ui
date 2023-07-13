@@ -60,7 +60,7 @@ const FarmH1 = styled(Heading)`
   font-size: 32px;
   margin-bottom: 8px;
   ${({ theme }) => theme.mediaQueries.sm} {
-    font-size: 64px;
+    font-size: 48px;
     margin-bottom: 24px;
   }
 `

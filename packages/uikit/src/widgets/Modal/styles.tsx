@@ -73,7 +73,7 @@ export const ModalContainer = styled(MotionBox)<{ $minWidth: string }>`
     width: auto;
     position: auto;
     bottom: auto;
-    border-radius: 32px;
+    border-radius: 16px;
     max-height: 100vh;
   }
 `;

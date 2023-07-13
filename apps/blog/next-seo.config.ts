@@ -1,19 +1,20 @@
 import { DefaultSeoProps } from 'next-seo'
 
 export const SEO: DefaultSeoProps = {
-  titleTemplate: '%s | PancakeSwap',
-  defaultTitle: 'Blog | PancakeSwap',
+  titleTemplate: '%s | CanaryX',
+  defaultTitle: 'Blog | CanaryX',
   description:
-    'Cheaper and faster than Uniswap? Discover PancakeSwap, the leading DEX on BNB Smart Chain (BSC) with the best farms in DeFi and a lottery for CAKE.',
+    'The most sought-after AMM DEX on Songbird is here! Instantly swap your favorite tokens and provide liquidity to begin reaping from trading fees. Earn $CANARY through yield farming, and stake them to acquire more tokens, or utilize them to purchase new tokens in initial farm offerings—all on a platform you can rely on.',
   twitter: {
     cardType: 'summary_large_image',
-    handle: '@PancakeSwap',
-    site: '@PancakeSwap',
+    handle: '@CanaryXtoken',
+    site: '@CanaryXtoken',
   },
   openGraph: {
-    title: ' PancakeSwap - A next evolution DeFi exchange on BNB Smart Chain (BSC)',
+    title: '💎 CanaryX - A Next-Gen DeFi Exchange on Songbird Network!',
     description:
-      'The most popular AMM on BSC! Earn CAKE through yield farming or win it in the Lottery, then stake it in Syrup Pools to earn more tokens! Initial Farm Offerings (new token launch model pioneered by PancakeSwap), NFTs, and more, on a platform you can trust.',
-    images: [{ url: 'https://pancakeswap.finance/images/hero.png' }],
+      'Join the revolution - CanaryX on Songbird! Engage in seamless token swaps, provide liquidity for rewards, and earn $CANARY through exciting yield farming opportunities. Enter the new era of decentralized finance, on a platform you can trust.',
+    images: [{ url: 'https://app.canaryx.finance/fullLogo.png' }],
   },
+
 }

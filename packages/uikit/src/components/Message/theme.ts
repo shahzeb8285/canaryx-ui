@@ -8,11 +8,11 @@ const variants = {
     borderColor: "failure",
   },
   success: {
-    background: "rgba(49, 208, 170, 0.1)",
+    background: "#31d0cb1a",
     borderColor: "success",
   },
   primary: {
-    background: "rgba(118, 69, 217, 0.1)",
+    background: "#456cd91a",
     borderColor: "secondary",
   },
 };

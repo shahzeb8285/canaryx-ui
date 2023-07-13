@@ -110,8 +110,8 @@ const SwapLineChart = ({
     const newSeries = chart.addAreaSeries({
       lineWidth: 2,
       lineColor: colors.gradient1,
-      topColor: colors.gradient1,
-      bottomColor: isDark ? darkColors.backgroundDisabled : lightColors.backgroundDisabled,
+      topColor: isDark ? darkColors.chartEffects : lightColors.chartEffects,
+      bottomColor: 'transparent',
     })
     setChart(chart)
     newSeries.setData(transformedData)

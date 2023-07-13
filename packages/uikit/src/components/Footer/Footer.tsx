@@ -36,8 +36,8 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
   const isMounted = useIsMounted();
   return (
     <StyledFooter
-      data-theme="dark"
-      p={["40px 16px", null, "56px 40px 32px 40px"]}
+      data-theme={isDark ? "dark" : "light"}
+      p={["20px 16px", null, "36px 40px 16px 40px"]}
       position="relative"
       {...props}
       justifyContent="center"
@@ -76,9 +76,7 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
               ))}
             </StyledList>
           ))}
-          <Box display={["none", null, "block"]}>
-            <LogoWithTextIcon width="160px" />
-          </Box>
+          
         </Flex>
         <StyledSocialLinks order={[2]} pb={["42px", null, "32px"]} mb={["0", null, "32px"]} />
         <StyledToolsContainer

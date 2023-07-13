@@ -104,7 +104,7 @@ const RoiCalculatorFooter: React.FC<React.PropsWithChildren<RoiCalculatorFooterP
           <Link
             mt="8px"
             display="inline"
-            // href="https://medium.com/panCANARYswap/farm-mutlipliers-visual-update-1f5f5f615afd"
+            // href="https://medium.com/CANARYX/farm-mutlipliers-visual-update-1f5f5f615afd"
             external
           >
             {t("Read more")}

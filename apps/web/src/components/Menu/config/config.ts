@@ -59,10 +59,7 @@ const config: (
         //   supportChainIds: SUPPORT_ONLY_BSC,
         //   image: '/images/decorations/3d-coin.png',
         // },
-        {
-          label: t('Liquidity'),
-          href: '/liquidity',
-        },
+       
         // {
         //   label: t('Perpetual'),
         //   href: getPerpetualUrl({
@@ -82,43 +79,37 @@ const config: (
     },
     {
       label: t('Earn'),
-      href: '/farms',
       icon: EarnIcon,
       fillIcon: EarnFillIcon,
       image: '/images/decorations/pe2.png',
       items: [
         {
-          label: t('Farms'),
-          href: '/farms',
+          label: t('Delegate'),
+          href: '/delegate',
+        },
+        {
+          label: t('Liquidity'),
+          href: '/liquidity',
         },
         {
           label: t('Pools'),
           href: '/pools',
           supportChainIds: SUPPORT_ONLY_BSC,
         },
+        {
+          label: t('Farms'),
+          href: '/farms',
+        },
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
 
-
     {
-      label:'Create Token',
+      label: t('Create'),
       href: 'https://canaryx.finance/create',
       icon: EarnIcon,
       fillIcon: EarnFillIcon,
       image: '/images/decorations/pe2.png',
-      items: [
-      
-      ].map((item) => addMenuItemSupported(item, chainId)),
-    },
-    {
-      label:'Delegate',
-      href: '/delegate',
-      icon: EarnIcon,
-      fillIcon: EarnFillIcon,
-      image: '/images/decorations/pe2.png',
-      items: [
-      
-      ].map((item) => addMenuItemSupported(item, chainId)),
+      items: [],
     },
     
     // {

@@ -7,7 +7,7 @@ import { getTrustWalletProvider } from '@pancakeswap/wagmi/connectors/trustWalle
 
 export enum ConnectorNames {
   MetaMask = 'metaMask',
-  Bitfrost = 'bitfrost',
+  Bifrost = 'bifrost',
 
   Injected = 'injected',
   WalletConnect = 'walletConnect',
@@ -64,14 +64,14 @@ const walletsConfig = ({
         // && metaMaskConnector.ready
       },
       connectorId: ConnectorNames.MetaMask,
-      deepLink: 'https://metamask.app.link/dapp/pancakeswap.finance/',
+      deepLink: 'https://metamask.app.link/dapp/app.canaryx.finance/',
       // qrCode,
-      downloadLink: 'https://metamask.app.link/dapp/pancakeswap.finance/',
+      downloadLink: 'https://metamask.app.link/dapp/app.canaryx.finance/',
     },
     {
-      id: 'bitfrost',
-      title: 'Bitfrost',
-      icon: '/images/wallets/bitfrost.png',
+      id: 'bifrost',
+      title: 'Bifrost',
+      icon: '/images/wallets/bifrost.png',
       connectorId: ConnectorNames.Injected,
       get installed() {
         return isMetamaskInstalled()

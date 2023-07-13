@@ -13,7 +13,7 @@ const StyledHeading = styled(Heading)`
   font-size: 40px;
 
   ${({ theme }) => theme.mediaQueries.md} {
-    font-size: 64px;
+    font-size: 48px;
   }
 `
 
