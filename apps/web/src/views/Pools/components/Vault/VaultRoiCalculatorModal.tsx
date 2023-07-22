@@ -85,22 +85,22 @@ export const VaultRoiCalculatorModal = ({
             )
           : null
       }
-      header={
-        pool.vaultKey === VaultKey.CakeVault ? (
-          <ButtonMenu
-            mb="24px"
-            fullWidth
-            scale="sm"
-            variant="subtle"
-            activeIndex={cakeVaultView}
-            onItemClick={setCakeVaultView}
-          >
-            {buttonMenuItems}
-          </ButtonMenu>
-        ) : (
-          <></>
-        )
-      }
+      // header={
+      //   pool.vaultKey === VaultKey.CakeVault ? (
+      //     <ButtonMenu
+      //       mb="24px"
+      //       fullWidth
+      //       scale="sm"
+      //       variant="subtle"
+      //       activeIndex={cakeVaultView}
+      //       onItemClick={setCakeVaultView}
+      //     >
+      //       {buttonMenuItems}
+      //     </ButtonMenu>
+      //   ) : (
+      //     <></>
+      //   )
+      // }
       {...rest}
     >
       {cakeVaultView && (

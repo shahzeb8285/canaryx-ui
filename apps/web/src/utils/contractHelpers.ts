@@ -74,6 +74,8 @@ import tradingCompetitionMoboxAbi from 'config/abi/tradingCompetitionMobox.json'
 import tradingCompetitionMoDAbi from 'config/abi/tradingCompetitionMoD.json'
 import easterNftAbi from 'config/abi/easterNft.json'
 import cakeVaultV2Abi from 'config/abi/cakeVaultV2.json'
+import cakeVaultAbi from 'config/abi/cakeVault.json'
+
 import cakeFlexibleSideVaultV2Abi from 'config/abi/cakeFlexibleSideVaultV2.json'
 import predictionsAbi from 'config/abi/predictions.json'
 import predictionsV1Abi from 'config/abi/predictionsV1.json'
@@ -160,6 +162,7 @@ import type {
   SID,
   TokenGenABI,
   SIDResolver,
+  CakeVault,
 } from 'config/abi/types'
 import { ChainId } from '@pancakeswap/sdk'
 
@@ -216,8 +219,9 @@ export const getPointCenterIfoContract = (signer?: Signer | Provider) => {
 export const getCakeContract = (signer?: Signer | Provider, chainId?: number) => {
   return getContract({
     abi: cakeAbi,
-    address: chainId ? CAKE[chainId].address : CAKE[ChainId.BSC].address,
+    address: chainId ? CAKE[chainId].address : CAKE[ChainId.SONGBIRD].address,
     signer,
+    chainId
   }) as Cake
 }
 export const getProfileContract = (signer?: Signer | Provider) => {
@@ -285,6 +289,9 @@ export const getEasterNftContract = (signer?: Signer | Provider) => {
 }
 export const getCakeVaultV2Contract = (signer?: Signer | Provider) => {
   return getContract({ abi: cakeVaultV2Abi, address: getCakeVaultAddress(), signer }) as CakeVaultV2
+}
+export const getCakeVaultContract = (signer?: Signer | Provider) => {
+  return getContract({ abi: cakeVaultAbi, address: getCakeVaultAddress(), signer }) as CakeVault
 }
 
 export const getCakeFlexibleSideVaultV2Contract = (signer?: Signer | Provider) => {
@@ -435,3 +442,16 @@ export const getStableSwapNativeHelperContract = (signer?: Signer | Provider, ch
     signer,
   }) as StableSwapNativeHelper
 }
+
+
+
+
+// export const getCakeVaultContract = (signer?: Signer | Provider, chainId?: number) => {
+//   return getContract({
+//     abi: cakeVaultAbi,
+//     address: getCakeVaultAddress(),
+//     chainId,
+//     signer,
+//   }) as CakeVault
+  
+// }

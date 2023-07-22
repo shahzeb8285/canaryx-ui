@@ -72,7 +72,7 @@ export const getVaultPoolAddress = (vaultKey: VaultKey) => {
 }
 
 export const getCakeVaultAddress = () => {
-  return getAddress(addresses.cakeVault)
+  return getAddress(addresses.cakeVault,ChainId.SONGBIRD)
 }
 
 export const getCakeFlexibleSideVaultAddress = () => {

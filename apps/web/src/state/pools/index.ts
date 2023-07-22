@@ -26,6 +26,7 @@ import { bscRpcProvider } from 'utils/providers'
 import { getPoolsPriceHelperLpFiles } from 'config/constants/priceHelperLps/index'
 import fetchFarms from '../farms/fetchFarms'
 import getFarmsPrices from '../farms/getFarmsPrices'
+
 import {
   fetchPoolsBlockLimits,
   fetchPoolsProfileRequirement,
@@ -176,7 +177,7 @@ export const fetchPoolsPublicDataAsync =
         ? getFarmsPrices([bnbBusdFarm, ...poolsWithDifferentFarmToken], chainId)
         : []
 
-      
+
       console.log({bnbBusdFarm})
       const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
@@ -190,6 +191,7 @@ export const fetchPoolsPublicDataAsync =
 
         const stakingTokenAddress = isAddress(pool.stakingToken.address)
         const stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
+
 
         console.log({stakingTokenPrice:stakingTokenPrice.toString()})
         const earningTokenAddress = isAddress(pool.earningToken.address)

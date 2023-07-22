@@ -17,8 +17,9 @@ const AprLabelContainer = styled(Flex)`
 export const StakingApy = memo(({ pool }: { pool: Pool.DeserializedPool<Token> }) => {
   const { t } = useTranslation()
 
-  const { flexibleApy, lockedApy } = useVaultApy()
+  const { flexibleApy } = useVaultApy()
 
+  // console.log({ lockedApy,flexibleApy})
   const [onPresentFlexibleApyModal] = useModal(<VaultRoiCalculatorModal pool={pool} />)
 
   const [onPresentLockedApyModal] = useModal(<VaultRoiCalculatorModal pool={pool} initialView={1} />)
@@ -27,7 +28,7 @@ export const StakingApy = memo(({ pool }: { pool: Pool.DeserializedPool<Token> }
     <LightGreyCard>
       <Flex alignItems="center" justifyContent="space-between">
         <Text color="textSubtle" textTransform="uppercase" bold fontSize="12px">
-          {t('Flexible')} APY:
+         Auto APY:
         </Text>
         {flexibleApy ? (
           <AprLabelContainer alignItems="center" justifyContent="flex-start">
@@ -50,10 +51,10 @@ export const StakingApy = memo(({ pool }: { pool: Pool.DeserializedPool<Token> }
           <Skeleton width="80px" height="16px" />
         )}
       </Flex>
-      {pool.vaultKey === VaultKey.CakeVault && (
+      {/* {pool.vaultKey === VaultKey.CakeVault && (
         <Flex alignItems="center" justifyContent="space-between">
           <Text color="textSubtle" textTransform="uppercase" bold fontSize="12px">
-            {t('Locked')} APR:
+           Auto APR:
           </Text>
           {lockedApy ? (
             <FlexGap gap="4px" flexWrap="wrap" justifyContent="flex-end">
@@ -61,7 +62,11 @@ export const StakingApy = memo(({ pool }: { pool: Pool.DeserializedPool<Token> }
                 {t('Up to')}
               </Text>
               <AprLabelContainer alignItems="center">
-                <Balance fontSize="16px" value={parseFloat(lockedApy)} decimals={2} unit="%" bold />
+                <Balance fontSize="16px"
+                  value={parseFloat(lockedApy)}
+                  decimals={2}
+                  unit="%"
+                  bold />
                 <Button
                   onClick={(e) => {
                     e.stopPropagation()
@@ -81,7 +86,7 @@ export const StakingApy = memo(({ pool }: { pool: Pool.DeserializedPool<Token> }
             <Skeleton width="80px" height="16px" />
           )}
         </Flex>
-      )}
+      )} */}
     </LightGreyCard>
   )
 })

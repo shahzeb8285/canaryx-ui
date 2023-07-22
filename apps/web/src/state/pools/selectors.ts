@@ -19,9 +19,12 @@ export const makePoolWithUserDataLoadingSelector = (sousId) =>
   })
 
 export const poolsWithUserDataLoadingSelector = createSelector(
-  [selectPoolsData, selectUserDataLoaded],
-  (pools, userDataLoaded) => {
-    return { pools: pools.map(transformPool), userDataLoaded }
+  [selectPoolsData, selectUserDataLoaded,selectVault(VaultKey.CakeVault)],
+  (pools, userDataLoaded,vault) => {
+    return {
+      pools: pools.map(transformPool), userDataLoaded,
+      vault
+    }
   },
 )
 
@@ -34,17 +37,25 @@ export const poolsWithVaultSelector = createSelector(
     makeVaultPoolByKey(VaultKey.CakeFlexibleSideVault),
   ],
   (poolsWithUserDataLoading, deserializedLockedCakeVault, deserializedFlexibleSideCakeVault) => {
+   
+   console.log({poolsWithUserDataLoading, deserializedLockedCakeVault, deserializedFlexibleSideCakeVault})
+   
     const { pools, userDataLoaded } = poolsWithUserDataLoading
     const cakePool = pools.find((pool) => !pool.isFinished && pool.sousId === 0)
-    const withoutCakePool = pools.filter((pool) => pool.sousId !== 0)
-
-    console.log({cakePool})
+    // const withoutCakePool = pools.filter((pool) => pool.sousId !== 0)
+  
+    const withoutCakePool =[cakePool] 
     const cakeAutoVault = {
       ...cakePool,
       ...deserializedLockedCakeVault,
       vaultKey: VaultKey.CakeVault,
+      contractAddress: {
+        19: "0xB25118032C7C09fb0465607FFAC4d0da99E8124F",
+      },
       userData: { ...cakePool.userData, ...deserializedLockedCakeVault.userData },
     }
+    console.log({cakeAutoVault})
+
 
     const lockedVaultPosition = getVaultPosition(deserializedLockedCakeVault.userData)
     const hasFlexibleSideSharesStaked = deserializedFlexibleSideCakeVault.userData.userShares.gt(0)
@@ -67,6 +78,7 @@ export const poolsWithVaultSelector = createSelector(
 
 export const makeVaultPoolWithKeySelector = (vaultKey) =>
   createSelector(poolsWithVaultSelector, ({ pools }) => pools.find((p) => p.vaultKey === vaultKey))
+
 
 export const ifoCreditSelector = createSelector([selectIfoUserCredit], (ifoUserCredit) => {
   return new BigNumber(ifoUserCredit)

@@ -450,7 +450,7 @@ const Staked: React.FunctionComponent<React.PropsWithChildren<StackedActionProps
             ml={['0', '0', '12px', '12px', '32px']}
             mr={['0', '0', '12px', '12px', '0']}
           >
-            <ConvertToLock stakingToken={stakingToken} currentStakedAmount={cakeAsNumberBalance} isInline />
+            {/* <ConvertToLock stakingToken={stakingToken} currentStakedAmount={cakeAsNumberBalance} isInline /> */}
           </Box>
         )}
       </>

@@ -1,7 +1,7 @@
 import {
   Cake,
   CakeFlexibleSideVaultV2,
-  CakeVaultV2,
+  CakeVault,
   Erc20,
   Erc20Bytes32,
   Erc721collection,
@@ -30,6 +30,7 @@ import {
   getCakeFlexibleSideVaultV2Contract,
   getCakePredictionsContract,
   getCakeVaultV2Contract,
+  getCakeVaultContract,
   getChainlinkOracleContract,
   getClaimRefundContract,
   getCrossFarmingProxyContract,
@@ -67,7 +68,7 @@ import { useSigner } from 'wagmi'
 
 // Imports below migrated from Exchange useContract.ts
 import { Contract } from '@ethersproject/contracts'
-import { WNATIVE } from '@pancakeswap/sdk'
+import { ChainId, WNATIVE } from '@pancakeswap/sdk'
 import { ERC20_BYTES32_ABI } from 'config/abi/erc20'
 import ERC20_ABI from 'config/abi/erc20.json'
 import IPancakePairABI from 'config/abi/IPancakePair.json'
@@ -112,11 +113,11 @@ export const useERC721 = (address: string, withSignerIfPossible = true) => {
 }
 
 export const useCake = (): { reader: Cake; signer: Cake } => {
-  const providerOrSigner = useProviderOrSigner(true, true)
+  const providerOrSigner = useProviderOrSigner(true, false)
   return useMemo(
     () => ({
-      reader: getCakeContract(null),
-      signer: getCakeContract(providerOrSigner),
+      reader: getCakeContract(null,ChainId.SONGBIRD),
+      signer: getCakeContract(providerOrSigner,ChainId.SONGBIRD),
     }),
     [providerOrSigner],
   )
@@ -208,11 +209,11 @@ export const useEasterNftContract = () => {
   return useMemo(() => getEasterNftContract(signer), [signer])
 }
 
-export const useVaultPoolContract = (vaultKey: VaultKey): CakeVaultV2 | CakeFlexibleSideVaultV2 => {
+export const useVaultPoolContract = (vaultKey: VaultKey): CakeVault | CakeFlexibleSideVaultV2 => {
   const { data: signer } = useSigner()
   return useMemo(() => {
     if (vaultKey === VaultKey.CakeVault) {
-      return getCakeVaultV2Contract(signer)
+      return getCakeVaultContract(signer)
     }
     if (vaultKey === VaultKey.CakeFlexibleSideVault) {
       return getCakeFlexibleSideVaultV2Contract(signer)

@@ -41,6 +41,8 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
 
   usePoolsPageFetch()
 
+  
+
   return (
     <>
       <PageHeader>
@@ -61,8 +63,9 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
       <Page>
         <PoolControls pools={pools}>
           {({ chosenPools, viewMode, stakedOnly, normalizedUrlSearch, showFinishedPools }) => (
+        
             <>
-          
+      
               {account && !userDataLoaded && stakedOnly && (
                 <Flex justifyContent="center" mb="4px">
                   <Loading />
@@ -70,35 +73,40 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
               )}
 
 <CardLayout>
-                  {chosenPools.map((pool) =>
-                     <Pool.PoolCard<Token>
-                     key={pool.sousId}
-                     pool={pool}
-                     isStaked={Boolean(pool?.userData?.stakedBalance?.gt(0))}
-                     cardContent={
-                       account ? (
-                         <CardActions pool={pool} stakedBalance={pool?.userData?.stakedBalance} />
-                       ) : (
-                         <>
-                           <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
-                             {t('Start earning')}
-                           </Text>
-                           <ConnectWalletButton />
-                         </>
-                       )
-                     }
-                     tokenPairImage={
-                       <TokenPairImage
-                         primaryToken={pool.earningToken}
-                         secondaryToken={pool.stakingToken}
-                         width={64}
-                         height={64}
-                       />
-                     }
-                     cardFooter={<CardFooter pool={pool} account={account} />}
-                     aprRow={<AprRow pool={pool} stakedBalance={pool?.userData?.stakedBalance} />}
-                   />
-                  )}
+                {chosenPools.map((pool) => {
+                  console.log("chossedne",pool)
+                  if (pool.vaultKey) {
+                    return <CakeVaultCard key={pool.vaultKey} pool={pool} showStakedOnly={stakedOnly} />
+                  } 
+                  return    <Pool.PoolCard<Token>
+                  key={pool.sousId}
+                  pool={pool}
+                  isStaked={Boolean(pool?.userData?.stakedBalance?.gt(0))}
+                  cardContent={
+                    account ? (
+                      <CardActions pool={pool} stakedBalance={pool?.userData?.stakedBalance} />
+                    ) : (
+                      <>
+                        <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
+                          {t('Start earning')}
+                        </Text>
+                        <ConnectWalletButton />
+                      </>
+                    )
+                  }
+                  tokenPairImage={
+                    <TokenPairImage
+                      primaryToken={pool.earningToken}
+                      secondaryToken={pool.stakingToken}
+                      width={64}
+                      height={64}
+                    />
+                  }
+                  cardFooter={<CardFooter pool={pool} account={account} />}
+                  aprRow={<AprRow pool={pool} stakedBalance={pool?.userData?.stakedBalance} />}
+                />
+              
+                })}
                 </CardLayout>
 
               {/* {viewMode === ViewMode.CARD ? (

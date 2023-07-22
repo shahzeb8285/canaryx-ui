@@ -8,10 +8,12 @@ import { useCakeVault } from 'state/pools/hooks'
 import useSWRImmutable from 'swr/immutable'
 import { getMasterChefAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
+import { ChainId } from '@pancakeswap/sdk'
+
 import { BOOST_WEIGHT, DURATION_FACTOR, MAX_LOCK_DURATION } from 'config/constants/pools'
 import { multicallv2 } from '../utils/multicall'
 
-const masterChefAddress = getMasterChefAddress()
+const masterChefAddress = getMasterChefAddress(ChainId.SONGBIRD)
 
 // default
 const DEFAULT_PERFORMANCE_FEE_DECIMALS = 2
@@ -42,37 +44,50 @@ const getLockedApy = (flexibleApy: string, boostFactor: FixedNumber) =>
 const cakePoolPID = 0
 
 export function useVaultApy({ duration = MAX_LOCK_DURATION }: { duration?: number } = {}) {
+ 
+  console.log("useVaultApy")
   const {
     totalShares = BIG_ZERO,
     pricePerFullShare = BIG_ZERO,
     fees: { performanceFeeAsDecimal } = { performanceFeeAsDecimal: DEFAULT_PERFORMANCE_FEE_DECIMALS },
   } = useCakeVault()
 
+
+  console.log("useVaultApy1")
+
   const totalSharesAsEtherBN = useMemo(() => FixedNumber.from(totalShares.toString()), [totalShares])
   const pricePerFullShareAsEtherBN = useMemo(() => FixedNumber.from(pricePerFullShare.toString()), [pricePerFullShare])
-
+  // console.log({pricePerFullShareAsEtherBN:pricePerFullShareAsEtherBN.toString()})
   const { data: totalCakePoolEmissionPerYear } = useSWRImmutable('masterChef-total-cake-pool-emission', async () => {
     const calls = [
       {
         address: masterChefAddress,
-        name: 'cakePerBlock',
-        params: [false],
+        name: 'dexTokenPerBlock',
+        params: [],
+        abi: masterChefAbi
       },
       {
         address: masterChefAddress,
         name: 'poolInfo',
         params: [cakePoolPID],
+        abi: masterChefAbi
       },
       {
         address: masterChefAddress,
-        name: 'totalSpecialAllocPoint',
+        name: 'totalAllocPoint',
+        abi: masterChefAbi
       },
     ]
+
+   
 
     const [[specialFarmsPerBlock], cakePoolInfo, [totalSpecialAllocPoint]] = await multicallv2({
       abi: masterChefAbi,
       calls,
+      chainId:ChainId.SONGBIRD
     })
+
+
 
     const cakePoolSharesInSpecialFarms = FixedNumber.from(cakePoolInfo.allocPoint).divUnsafe(
       FixedNumber.from(totalSpecialAllocPoint),

@@ -56,9 +56,9 @@ export const CakeVaultDetail: React.FC<React.PropsWithChildren<CakeVaultDetailPr
   return (
     <>
       <StyledCardBody isLoading={isLoading}>
-        {account && pool.vaultKey === VaultKey.CakeVault && (
+        {/* {account && pool.vaultKey === VaultKey.CakeVault && (
           <VaultPositionTagWithLabel userData={(vaultPool as DeserializedLockedCakeVault).userData} />
-        )}
+        )} */}
         {account && pool.vaultKey === VaultKey.CakeVault && isLocked ? (
           <LockedStakingApy
             userData={(vaultPool as DeserializedLockedCakeVault).userData}
@@ -71,11 +71,11 @@ export const CakeVaultDetail: React.FC<React.PropsWithChildren<CakeVaultDetailPr
             <StakingApy pool={pool} />
             <FlexGap mt="16px" gap="24px" flexDirection={accountHasSharesStaked ? 'column-reverse' : 'column'}>
               <Box>
-                {account && (
+                {/* {account && (
                   <Box mb="8px">
                     <UnstakingFeeCountdownRow vaultKey={pool.vaultKey} />
                   </Box>
-                )}
+                )} */}
                 <RecentCakeProfitRow pool={pool} />
               </Box>
               <Flex flexDirection="column">

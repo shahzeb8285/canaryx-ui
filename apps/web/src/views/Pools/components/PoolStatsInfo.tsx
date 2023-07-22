@@ -85,7 +85,7 @@ const PoolStatsInfo: React.FC<React.PropsWithChildren<ExpandedFooterProps>> = ({
           decimalsToShow={0}
         />
       )}
-      {vaultKey === VaultKey.CakeVault && <TotalLocked totalLocked={totalLockedAmount} lockedToken={stakingToken} />}
+      {/* {vaultKey === VaultKey.CakeVault && <TotalLocked totalLocked={totalLockedAmount} lockedToken={stakingToken} />} */}
       {/* {vaultKey === VaultKey.CakeVault && <DurationAvg />} */}
       {!isFinished && stakingLimit && stakingLimit.gt(0) && (
         <MaxStakeRow

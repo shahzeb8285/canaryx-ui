@@ -21,9 +21,10 @@ export const useCakeApprovalStatus = (spender) => {
         : null,
     [account, cakeContract, spender],
   )
-
   const { data, mutate } = useSWRContract(key)
-
+  // const resp = cakeContract['allowance'](account,spender)
+  // const params = [account, spender]
+  
   return {
     isVaultApproved: data ? data.gt(0) : false,
     allowance: new BigNumber(data?.toString()),

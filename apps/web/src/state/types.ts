@@ -156,6 +156,7 @@ export interface SerializedCakeVault {
   totalCakeInVault?: SerializedBigNumber
   fees?: SerializedVaultFees
   userData?: SerializedVaultUser
+  totalPendingDexTokenHarvest?:SerializedBigNumber
 }
 
 // Ifo

@@ -116,9 +116,9 @@ export const transformVault = (vaultKey: VaultKey, vault: SerializedCakeVault): 
     const balance = convertSharesToCake(
       userShares,
       pricePerFullShare,
-      undefined,
-      undefined,
-      currentOverdueFee.plus(currentPerformanceFee).plus(userBoostedShare),
+      // undefined,
+      // undefined,
+      // currentOverdueFee.plus(currentPerformanceFee).plus(userBoostedShare),
     )
     userDataExtra = {
       lockEndTime,
@@ -144,6 +144,7 @@ export const transformVault = (vaultKey: VaultKey, vault: SerializedCakeVault): 
     totalShares,
     pricePerFullShare,
     ...publicDataExtra,
+    vaultKey,
     fees: { performanceFee, withdrawalFee, withdrawalFeePeriod, performanceFeeAsDecimal },
     userData: {
       isLoading,
@@ -161,7 +162,8 @@ export const getTokenPricesFromFarm = (farms: SerializedFarm[]) => {
     const quoteTokenAddress = isAddress(farm.quoteToken.address)
     const tokenAddress = isAddress(farm.token.address)
     
-
+    console.log("getTokenPricesFromFarm11", farm.quoteTokenPriceBusd, farm.tokenPriceBusd)
+    
     /* eslint-disable no-param-reassign */
     if (quoteTokenAddress && !prices[quoteTokenAddress]) {
       prices[quoteTokenAddress] = new BigNumber(farm.quoteTokenPriceBusd).toNumber()

@@ -189,12 +189,11 @@ const VaultStakeModal: React.FC<React.PropsWithChildren<VaultStakeModalProps>> =
     }
   }
 
-  const handleDeposit = async (lockDuration = 0) => {
+  const handleDeposit = async () => {
     const receipt = await fetchWithCatchTxError(() => {
-      // .toString() being called to fix a BigNumber error in prod
-      // as suggested here https://github.com/ChainSafe/web3.js/issues/2077
-      const extraArgs = pool.vaultKey === VaultKey.CakeVault ? [lockDuration.toString()] : []
-      const methodArgs = [convertedStakeAmount.toString(), ...extraArgs]
+     
+      // const extraArgs = pool.vaultKey === VaultKey.CakeVault ? [lockDuration.toString()] : []
+      const methodArgs = [convertedStakeAmount.toString(),]
       return callWithGasPrice(vaultPoolContract, 'deposit', methodArgs, callOptions)
     })
 
@@ -314,7 +313,7 @@ const VaultStakeModal: React.FC<React.PropsWithChildren<VaultStakeModalProps>> =
       )}
       {pool.vaultKey === VaultKey.CakeVault && cakeAsNumberBalance ? (
         <Box mt="8px" maxWidth="370px">
-          <ConvertToLock stakingToken={stakingToken} currentStakedAmount={cakeAsNumberBalance} />
+          {/* <ConvertToLock stakingToken={stakingToken} currentStakedAmount={cakeAsNumberBalance} /> */}
         </Box>
       ) : null}
       {needEnable ? (

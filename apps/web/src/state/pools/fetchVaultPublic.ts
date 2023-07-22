@@ -6,47 +6,108 @@ import { getCakeVaultAddress, getCakeFlexibleSideVaultAddress } from 'utils/addr
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { ChainId } from '@pancakeswap/sdk'
 import { CAKE } from '@pancakeswap/tokens'
+import { convertSharesToCake } from 'views/Pools/helpers'
 
 const cakeVaultV2 = getCakeVaultAddress()
 const cakeFlexibleSideVaultV2 = getCakeFlexibleSideVaultAddress()
-export const fetchPublicVaultData = async (cakeVaultAddress = cakeVaultV2) => {
+// export const fetchPublicVaultData = async (cakeVaultAddress = cakeVaultV2) => {
+//   try {
+//     const calls = ['getPricePerFullShare', 'totalShares', 'totalLockedAmount'].map((method) => ({
+//       abi: cakeVaultAbi,
+//       address: cakeVaultAddress,
+//       name: method,
+//     }))
+
+//     const cakeBalanceOfCall = {
+//       abi: cakeAbi,
+//       address: CAKE[ChainId.SONGBIRD].address,
+//       name: 'balanceOf',
+//       params: [cakeVaultV2],
+//     }
+
+//     const [[sharePrice], [shares], totalLockedAmount, [totalCakeInVault]] = await multicallv3({
+//       calls: [...calls, cakeBalanceOfCall],
+//       allowFailure: true,
+//     })
+
+//     const totalSharesAsBigNumber = shares ? new BigNumber(shares.toString()) : BIG_ZERO
+//     const totalLockedAmountAsBigNumber = totalLockedAmount ? new BigNumber(totalLockedAmount[0].toString()) : BIG_ZERO
+//     const sharePriceAsBigNumber = sharePrice ? new BigNumber(sharePrice.toString()) : BIG_ZERO
+//     return {
+//       totalShares: totalSharesAsBigNumber.toJSON(),
+//       totalLockedAmount: totalLockedAmountAsBigNumber.toJSON(),
+//       pricePerFullShare: sharePriceAsBigNumber.toJSON(),
+//       totalCakeInVault: new BigNumber(totalCakeInVault.toString()).toJSON(),
+//     }
+//   } catch (error) {
+//     return {
+//       totalShares: null,
+//       totalLockedAmount: null,
+//       pricePerFullShare: null,
+//       totalCakeInVault: null,
+//     }
+//   }
+// }
+
+
+export const fetchPublicVaultData = async () => {
   try {
-    const calls = ['getPricePerFullShare', 'totalShares', 'totalLockedAmount'].map((method) => ({
-      abi: cakeVaultAbi,
-      address: cakeVaultAddress,
+    const calls = [
+      'getPricePerFullShare',
+      'totalShares',
+      'calculateHarvestDexTokenRewards',
+      'calculateTotalPendingDexTokenRewards',
+    ].map((method) => ({
+      address: getCakeVaultAddress(),
       name: method,
+      abi: cakeVaultAbi,
     }))
 
-    const cakeBalanceOfCall = {
-      abi: cakeAbi,
-      address: CAKE[ChainId.BSC].address,
-      name: 'balanceOf',
-      params: [cakeVaultV2],
-    }
 
-    const [[sharePrice], [shares], totalLockedAmount, [totalCakeInVault]] = await multicallv3({
-      calls: [...calls, cakeBalanceOfCall],
-      allowFailure: true,
-    })
+    
+
+    const [[sharePrice], [shares], [estimatedDexTokenBountyReward], [totalpendingDexTokenHarvest]] = await multicallv3(
+      
+      {
+        
+        calls: [...calls],
+        allowFailure: true,
+        chainId:ChainId.SONGBIRD
+      }
+    )
+
+
+    // const [[sharePrice], [shares], totalLockedAmount, [totalCakeInVault]] = await multicallv3({
+    //   calls: [...calls, cakeBalanceOfCall],
+    //   allowFailure: true,
+    // })
+
 
     const totalSharesAsBigNumber = shares ? new BigNumber(shares.toString()) : BIG_ZERO
-    const totalLockedAmountAsBigNumber = totalLockedAmount ? new BigNumber(totalLockedAmount[0].toString()) : BIG_ZERO
     const sharePriceAsBigNumber = sharePrice ? new BigNumber(sharePrice.toString()) : BIG_ZERO
+    const totalDexTokenInVaultEstimate = convertSharesToCake(totalSharesAsBigNumber, sharePriceAsBigNumber)
+
     return {
       totalShares: totalSharesAsBigNumber.toJSON(),
-      totalLockedAmount: totalLockedAmountAsBigNumber.toJSON(),
       pricePerFullShare: sharePriceAsBigNumber.toJSON(),
-      totalCakeInVault: new BigNumber(totalCakeInVault.toString()).toJSON(),
+      totalCakeInVault: totalDexTokenInVaultEstimate.cakeAsBigNumber.toJSON(),
+      estimatedDexTokenBountyReward: new BigNumber(estimatedDexTokenBountyReward.toString()).toJSON(),
+      totalpendingDexTokenHarvest: new BigNumber(totalpendingDexTokenHarvest.toString()).toJSON(),
     }
   } catch (error) {
+    console.log("fdfdfdfdfdfdf",error)
     return {
       totalShares: null,
-      totalLockedAmount: null,
       pricePerFullShare: null,
       totalCakeInVault: null,
+      estimatedDexTokenBountyReward: null,
+      totalpendingDexTokenHarvest: null,
     }
   }
 }
+
+
+
 
 export const fetchPublicFlexibleSideVaultData = async (cakeVaultAddress = cakeFlexibleSideVaultV2) => {
   try {
@@ -58,7 +119,7 @@ export const fetchPublicFlexibleSideVaultData = async (cakeVaultAddress = cakeFl
 
     const cakeBalanceOfCall = {
       abi: cakeAbi,
-      address: CAKE[ChainId.BSC].address,
+      address: CAKE[ChainId.SONGBIRD].address,
       name: 'balanceOf',
       params: [cakeVaultAddress],
     }
